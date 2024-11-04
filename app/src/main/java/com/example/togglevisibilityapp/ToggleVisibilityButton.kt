@@ -40,7 +40,6 @@ fun ToggleVisibilityButton() {
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {
-        // Botones para alternar visibilidad y color
         Button(onClick = { isVisible = !isVisible }) {
             Text(text = if (isVisible) "Ocultar Cuadro" else "Mostrar Cuadro")
         }
@@ -61,8 +60,14 @@ fun ToggleVisibilityButton() {
                 targetValue = if (isBlue) Color.Blue else Color.Green,
                 animationSpec = tween(durationMillis = 500)
             )
-            val animatedSize by animateDpAsState(targetValue = size, animationSpec = tween(durationMillis = 500))
-            val animatedOffset by animateDpAsState(targetValue = offset, animationSpec = tween(durationMillis = 500))
+            val animatedSize by animateDpAsState(
+                targetValue = size,
+                animationSpec = tween(durationMillis = 500)
+            )
+            val animatedOffset by animateDpAsState(
+                targetValue = offset,
+                animationSpec = tween(durationMillis = 500)
+            )
 
             Box(
                 modifier = Modifier
@@ -74,7 +79,7 @@ fun ToggleVisibilityButton() {
 
         Spacer(modifier = Modifier.height(32.dp))
 
-        // Contenido con estados
+    }
         AnimatedContent(
             targetState = appState,
             transitionSpec = {
