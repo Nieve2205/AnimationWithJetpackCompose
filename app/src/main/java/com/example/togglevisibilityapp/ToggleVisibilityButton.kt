@@ -1,14 +1,11 @@
 package com.example.togglevisibilityapp
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
@@ -17,17 +14,27 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
 
 @Composable
 fun ToggleVisibilityButton() {
     var isVisible by remember { mutableStateOf(false) }
     var isBlue by remember { mutableStateOf(true) }
+    var size by remember { mutableStateOf(100.dp) }
+    var offset by remember { mutableStateOf(0.dp) }
 
     Column(horizontalAlignment = Alignment.CenterHorizontally) {
         Button(onClick = { isVisible = !isVisible }) {
             Text(text = if (isVisible) "Ocultar" else "Mostrar")
         }
-
+        Button(onClick = {
+            isBlue = !isBlue
+            size = if (size == 100.dp) 250.dp else 100.dp
+            offset = if (offset == 0.dp) 100.dp else 0.dp
+        }) {
+            Text(text = if (isBlue) "Cambiar a Verde" else "Cambiar a Azul")
+        }
         AnimatedVisibility(
             visible = isVisible,
             enter = fadeIn(),
@@ -37,16 +44,15 @@ fun ToggleVisibilityButton() {
                 targetValue = if (isBlue) Color.Blue else Color.Green,
                 animationSpec = tween(durationMillis = 500)
             )
+            val animatedSize by animateDpAsState(targetValue = size, animationSpec = tween(durationMillis = 500))
+            val animatedOffset by animateDpAsState(targetValue = offset, animationSpec = tween(durationMillis = 500))
 
             Box(
                 modifier = Modifier
-                    .size(100.dp)
+                    .offset(x = animatedOffset, y = animatedOffset)
+                    .size(animatedSize)
                     .background(color)
             )
-        }
-
-        Button(onClick = { isBlue = !isBlue }) {
-            Text(text = if (isBlue) "Cambiar a Verde" else "Cambiar a Azul")
         }
     }
 }
