@@ -52,6 +52,7 @@ fun ToggleVisibilityButton() {
                     .offset(x = animatedOffset, y = animatedOffset)
                     .size(animatedSize)
                     .background(color)
+
             )
         }
     }
